@@ -25,25 +25,27 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#8E9196",
+          DEFAULT: "#32373c",
           foreground: "#ffffff",
-          hover: "#7A7D82",
+          hover: "#69727d",
         },
         secondary: {
-          DEFAULT: "#FDB813",
+          DEFAULT: "#fcb900",
           foreground: "#000000",
+          hover: "#ff6900",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "#69727d",
+          foreground: "#ffffff",
         },
         accent: {
-          DEFAULT: "#FDB813",
+          DEFAULT: "#fcb900",
           foreground: "#000000",
+          hover: "#ff6900",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -52,20 +54,6 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        blue: {
-          50: "#F0F9FF",
-          100: "#E0F2FE",
-          200: "#BAE6FD",
-          300: "#7DD3FC",
-          400: "#38BDF8",
-          500: "#0EA5E9",
-          600: "#0284C7",
-          700: "#0369A1",
-          800: "#075985",
-          900: "#0C4A6E",
-          DEFAULT: "#0EA5E9",
-          foreground: "#FFFFFF"
         },
       },
       borderRadius: {
