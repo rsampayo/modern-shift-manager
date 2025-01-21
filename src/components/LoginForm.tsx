@@ -15,17 +15,22 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
   const [remember, setRemember] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <Card className="w-full max-w-md p-8 space-y-6 glass-card fade-in">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-secondary/10 p-4">
+      <Card className="w-full max-w-md p-8 space-y-6 glass-card fade-in shadow-lg hover:shadow-xl transition-all duration-300 border border-primary/20">
         <div className="space-y-4 text-center">
-          <img 
-            src="/lovable-uploads/bbe8f7c8-d3b5-46c9-ba98-f98d35334f7d.png" 
-            alt="STX Underground LLC" 
-            className="h-16 w-auto mx-auto"
-          />
+          <div className="relative">
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-secondary to-primary/20 rounded-full blur opacity-30 group-hover:opacity-100 transition duration-1000"></div>
+            <img 
+              src="/lovable-uploads/bbe8f7c8-d3b5-46c9-ba98-f98d35334f7d.png" 
+              alt="STX Underground LLC" 
+              className="relative h-16 w-auto mx-auto hover:scale-105 transition-transform duration-300"
+            />
+          </div>
           <div>
-            <h1 className="text-2xl font-bold text-primary">STX Underground LLC</h1>
-            <p className="text-gray-500">Clock-In & Tracking System</p>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+              STX Underground LLC
+            </h1>
+            <p className="text-primary/80">Clock-In & Tracking System</p>
           </div>
         </div>
 
@@ -37,6 +42,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
               placeholder="Enter your user ID"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
+              className="border-primary/20 focus:border-secondary transition-colors"
             />
           </div>
 
@@ -48,6 +54,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="border-primary/20 focus:border-secondary transition-colors"
             />
           </div>
 
@@ -56,17 +63,18 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
               id="remember"
               checked={remember}
               onCheckedChange={(checked) => setRemember(checked as boolean)}
+              className="border-primary/20 data-[state=checked]:bg-secondary data-[state=checked]:border-secondary"
             />
             <label
               htmlFor="remember"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-primary/80"
             >
               Remember me
             </label>
           </div>
 
           <Button
-            className="w-full bg-primary hover:bg-primary-hover text-primary-foreground"
+            className="w-full bg-gradient-to-r from-primary via-secondary to-primary hover:opacity-90 text-primary-foreground transition-all duration-300"
             onClick={() => onLogin(userId, password, remember)}
           >
             Login
