@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Bell, Clock, Tool } from "lucide-react";
+import { Bell, Clock, Wrench } from "lucide-react";
 
 const mockNotifications = [
   {
@@ -29,7 +29,7 @@ const NotificationsTab = () => {
                 {notification.type === "reminder" ? (
                   <Clock className="h-5 w-5 text-primary" />
                 ) : (
-                  <Tool className="h-5 w-5 text-primary" />
+                  <Wrench className="h-5 w-5 text-primary" />
                 )}
                 <h3 className="text-lg font-semibold">{notification.title}</h3>
               </div>
