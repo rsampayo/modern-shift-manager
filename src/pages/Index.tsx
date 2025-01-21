@@ -34,22 +34,31 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-background to-primary/5 p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-900">Clock-In & Tracking</h1>
-          <Button 
-            variant="outline"
-            onClick={() => {
-              setIsLoggedIn(false);
-              toast({
-                title: "Logged out successfully",
-                description: "See you next time!",
-              });
-            }}
-          >
-            Logout
-          </Button>
+          <div className="flex items-center gap-4">
+            <img 
+              src="/lovable-uploads/bbe8f7c8-d3b5-46c9-ba98-f98d35334f7d.png" 
+              alt="STX Underground LLC" 
+              className="h-12 w-auto"
+            />
+            <h1 className="text-3xl font-bold text-primary">Clock-In & Tracking</h1>
+          </div>
+          {isLoggedIn && (
+            <Button 
+              variant="outline"
+              onClick={() => {
+                setIsLoggedIn(false);
+                toast({
+                  title: "Logged out successfully",
+                  description: "See you next time!",
+                });
+              }}
+            >
+              Logout
+            </Button>
+          )}
         </div>
 
         <StatsCard />
