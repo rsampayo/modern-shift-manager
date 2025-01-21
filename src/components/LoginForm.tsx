@@ -17,9 +17,16 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <Card className="w-full max-w-md p-8 space-y-6 glass-card fade-in">
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold text-gray-900">Clock-In & Tracking</h1>
-          <p className="text-gray-500">Enter your credentials to continue</p>
+        <div className="space-y-4 text-center">
+          <img 
+            src="/lovable-uploads/bbe8f7c8-d3b5-46c9-ba98-f98d35334f7d.png" 
+            alt="STX Underground LLC" 
+            className="h-16 w-auto mx-auto"
+          />
+          <div>
+            <h1 className="text-2xl font-bold text-primary">STX Underground LLC</h1>
+            <p className="text-gray-500">Clock-In & Tracking System</p>
+          </div>
         </div>
 
         <div className="space-y-4">
