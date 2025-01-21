@@ -31,13 +31,13 @@ const EquipmentTab = () => {
   return (
     <div className="space-y-6 py-4">
       {mockEquipment.map((equipment) => (
-        <Card key={equipment.id} className="p-6 glass-card card-hover border-green-100 bg-green-50">
+        <Card key={equipment.id} className="p-6 glass-card card-hover border-blue-100 bg-blue-50">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-green-800">{equipment.name}</h3>
+              <h3 className="text-lg font-semibold text-blue-800">{equipment.name}</h3>
               <div className={`status-badge flex items-center gap-2 ${
                 equipment.status === "OK" 
-                  ? "bg-green-100 text-green-800 border border-green-200" 
+                  ? "bg-blue-100 text-blue-800 border border-blue-200" 
                   : "bg-red-100 text-red-800 border border-red-200"
               }`}>
                 {equipment.status === "OK" ? (
@@ -48,12 +48,12 @@ const EquipmentTab = () => {
                 <span>{equipment.status}</span>
               </div>
             </div>
-            <p className="text-sm text-green-700">
+            <p className="text-sm text-blue-700">
               Last Check: {equipment.lastCheck}
             </p>
             <Button
               variant="outline"
-              className="w-full border-green-200 hover:bg-green-50 text-green-700"
+              className="w-full border-blue-200 hover:bg-blue-50 text-blue-700"
               onClick={handleReport}
             >
               Report Issue

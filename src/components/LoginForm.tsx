@@ -15,8 +15,8 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
   const [remember, setRemember] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50 p-4">
-      <Card className="w-full max-w-md p-8 space-y-6 glass-card fade-in shadow-lg hover:shadow-xl transition-all duration-300 border border-green-200">
+    <div className="min-h-screen flex items-center justify-center bg-blue-50 p-4">
+      <Card className="w-full max-w-md p-8 space-y-6 glass-card fade-in shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-200">
         <div className="space-y-4 text-center">
           <div className="relative">
             <img 
@@ -26,10 +26,10 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
             />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-green-800">
+            <h1 className="text-2xl font-bold text-blue-800">
               STX Underground LLC
             </h1>
-            <p className="text-green-600">Clock-In & Tracking System</p>
+            <p className="text-blue-600">Clock-In & Tracking System</p>
           </div>
         </div>
 
@@ -41,7 +41,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
               placeholder="Enter your user ID"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              className="border-green-200 focus:border-green-400 transition-colors"
+              className="border-blue-200 focus:border-blue-400 transition-colors"
             />
           </div>
 
@@ -53,7 +53,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border-green-200 focus:border-green-400 transition-colors"
+              className="border-blue-200 focus:border-blue-400 transition-colors"
             />
           </div>
 
@@ -62,18 +62,18 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
               id="remember"
               checked={remember}
               onCheckedChange={(checked) => setRemember(checked as boolean)}
-              className="border-green-200 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
+              className="border-blue-200 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
             />
             <label
               htmlFor="remember"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-green-700"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-blue-700"
             >
               Remember me
             </label>
           </div>
 
           <Button
-            className="w-full bg-green-500 hover:bg-green-600 text-white transition-all duration-300"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300"
             onClick={() => onLogin(userId, password, remember)}
           >
             Login

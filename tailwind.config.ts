@@ -25,12 +25,12 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#8E9196", // Metallic silver from logo
+          DEFAULT: "#8E9196",
           foreground: "#ffffff",
           hover: "#7A7D82",
         },
         secondary: {
-          DEFAULT: "#FDB813", // Yellow from logo
+          DEFAULT: "#FDB813",
           foreground: "#000000",
         },
         destructive: {
@@ -42,7 +42,7 @@ export default {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "#FDB813", // Yellow accent
+          DEFAULT: "#FDB813",
           foreground: "#000000",
         },
         popover: {
@@ -53,18 +53,18 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        green: {
-          50: "#F2FCE2",  // Lightest green
-          100: "#E3F7C6",
-          200: "#C7EE99",
-          300: "#AAE46D",
-          400: "#8EDA40",
-          500: "#72D014", // Base green
-          600: "#5BAA10",
-          700: "#44830C",
-          800: "#2D5C08",
-          900: "#163504",  // Darkest green
-          DEFAULT: "#72D014",
+        blue: {
+          50: "#F0F9FF",
+          100: "#E0F2FE",
+          200: "#BAE6FD",
+          300: "#7DD3FC",
+          400: "#38BDF8",
+          500: "#0EA5E9",
+          600: "#0284C7",
+          700: "#0369A1",
+          800: "#075985",
+          900: "#0C4A6E",
+          DEFAULT: "#0EA5E9",
           foreground: "#FFFFFF"
         },
       },
