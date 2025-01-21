@@ -31,7 +31,7 @@ const EquipmentTab = () => {
   return (
     <div className="space-y-6 py-4">
       {mockEquipment.map((equipment) => (
-        <Card key={equipment.id} className="p-6 glass-card card-hover border-green-100 bg-gradient-to-br from-green-50 to-white">
+        <Card key={equipment.id} className="p-6 glass-card card-hover border-green-100 bg-green-50">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold text-green-800">{equipment.name}</h3>

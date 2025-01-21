@@ -7,7 +7,7 @@ const StatsCard = () => {
   const [isOffline, setIsOffline] = useState(false);
 
   return (
-    <Card className="p-6 glass-card bg-gradient-to-br from-green-50 via-white to-green-50 border-green-100">
+    <Card className="p-6 glass-card bg-green-50 border-green-100">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-green-700">

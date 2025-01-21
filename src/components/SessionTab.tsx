@@ -59,7 +59,7 @@ const SessionTab = () => {
       </div>
 
       {!isClockedIn ? (
-        <Card className="p-6 glass-card card-hover border-green-100 bg-gradient-to-br from-green-50 to-white">
+        <Card className="p-6 glass-card card-hover border-green-100 bg-green-50">
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-green-800">Start Your Shift</h3>
             <p className="text-gray-500">You're currently not clocked in.</p>
@@ -72,7 +72,7 @@ const SessionTab = () => {
           </div>
         </Card>
       ) : (
-        <Card className="p-6 glass-card card-hover border-green-200 bg-gradient-to-br from-green-100 to-white">
+        <Card className="p-6 glass-card card-hover border-green-200 bg-green-100">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold text-green-800">Active Session</h3>
