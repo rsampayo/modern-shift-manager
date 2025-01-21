@@ -48,9 +48,10 @@ const SessionTab = () => {
         <Switch
           checked={isWithinGeofence}
           onCheckedChange={setIsWithinGeofence}
+          className="data-[state=checked]:bg-green-500"
         />
         <div className="flex items-center gap-2">
-          <MapPin className="h-4 w-4 text-gray-500" />
+          <MapPin className="h-4 w-4 text-green-600" />
           <span className="text-sm text-gray-500">
             {isWithinGeofence ? "Inside Geofence" : "Outside Geofence"}
           </span>
@@ -58,12 +59,12 @@ const SessionTab = () => {
       </div>
 
       {!isClockedIn ? (
-        <Card className="p-6 glass-card card-hover">
+        <Card className="p-6 glass-card card-hover border-green-100 bg-gradient-to-br from-green-50 to-white">
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Start Your Shift</h3>
+            <h3 className="text-lg font-semibold text-green-800">Start Your Shift</h3>
             <p className="text-gray-500">You're currently not clocked in.</p>
             <Button
-              className="w-full bg-primary hover:bg-primary-hover text-primary-foreground"
+              className="w-full bg-green-500 hover:bg-green-600 text-white transition-all duration-300 shadow-lg hover:shadow-green-200"
               onClick={handleClockIn}
             >
               Clock In
@@ -71,19 +72,19 @@ const SessionTab = () => {
           </div>
         </Card>
       ) : (
-        <Card className="p-6 glass-card card-hover">
+        <Card className="p-6 glass-card card-hover border-green-200 bg-gradient-to-br from-green-100 to-white">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">Active Session</h3>
-              <div className="status-badge status-active">Active</div>
+              <h3 className="text-lg font-semibold text-green-800">Active Session</h3>
+              <div className="status-badge bg-green-100 text-green-800 border border-green-200">Active</div>
             </div>
             <div className="space-y-2">
-              <p className="text-gray-500">Started at: 9:00 AM</p>
-              <p className="text-gray-500">Duration: 2h 30m</p>
+              <p className="text-gray-600">Started at: 9:00 AM</p>
+              <p className="text-gray-600">Duration: 2h 30m</p>
             </div>
             <Button
               variant="outline"
-              className="w-full"
+              className="w-full border-green-200 hover:bg-green-50 text-green-700"
               onClick={handleClockOut}
             >
               Clock Out
