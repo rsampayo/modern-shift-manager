@@ -25,6 +25,7 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
     firstAidKit: false,
     fireExtinguishers: false,
     trafficControl: false,
+    // PPE
     safetyVest: false,
     safetyGlasses: false,
     hearingProtection: false,
