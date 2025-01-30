@@ -25,13 +25,11 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
     firstAidKit: false,
     fireExtinguishers: false,
     trafficControl: false,
-    ppe: {
-      safetyVest: false,
-      safetyGlasses: false,
-      hearingProtection: false,
-      steelToeBoots: false,
-      dielectricGloves: false,
-    },
+    safetyVest: false,
+    safetyGlasses: false,
+    hearingProtection: false,
+    steelToeBoots: false,
+    dielectricGloves: false,
     // Excavations
     competentPerson: false,
     excavationsProtected: false,
@@ -64,12 +62,7 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
       return;
     }
 
-    const allChecked = Object.entries(checklist).every(([key, value]) => {
-      if (typeof value === 'object') {
-        return Object.values(value).every(v => v);
-      }
-      return value;
-    });
+    const allChecked = Object.values(checklist).every(value => value === true);
 
     if (!allChecked) {
       toast({
@@ -151,27 +144,46 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
 
               <h5 className="font-medium">Personal Protective Equipment (PPE)</h5>
               <div className="space-y-2 pl-4">
-                {Object.entries(checklist.ppe).map(([key, value]) => (
-                  <div key={key} className="flex items-center space-x-2">
-                    <Checkbox 
-                      id={key}
-                      checked={value}
-                      onCheckedChange={(checked) => 
-                        setChecklist(prev => ({
-                          ...prev,
-                          ppe: { ...prev.ppe, [key]: checked as boolean }
-                        }))
-                      }
-                    />
-                    <Label htmlFor={key}>
-                      {key === 'safetyVest' ? 'Safety vest (high visibility)' :
-                       key === 'safetyGlasses' ? 'Safety glasses / Face shields / Hard hats' :
-                       key === 'hearingProtection' ? 'Hearing protection' :
-                       key === 'steelToeBoots' ? 'Steel Toe Boots' :
-                       'Dielectric Gloves (inspected at 6 months)'}
-                    </Label>
-                  </div>
-                ))}
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="safetyVest"
+                    checked={checklist.safetyVest}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, safetyVest: checked as boolean }))}
+                  />
+                  <Label htmlFor="safetyVest">Safety vest (high visibility)</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="safetyGlasses"
+                    checked={checklist.safetyGlasses}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, safetyGlasses: checked as boolean }))}
+                  />
+                  <Label htmlFor="safetyGlasses">Safety glasses / Face shields / Hard hats</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="hearingProtection"
+                    checked={checklist.hearingProtection}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, hearingProtection: checked as boolean }))}
+                  />
+                  <Label htmlFor="hearingProtection">Hearing protection</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="steelToeBoots"
+                    checked={checklist.steelToeBoots}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, steelToeBoots: checked as boolean }))}
+                  />
+                  <Label htmlFor="steelToeBoots">Steel Toe Boots</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="dielectricGloves"
+                    checked={checklist.dielectricGloves}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, dielectricGloves: checked as boolean }))}
+                  />
+                  <Label htmlFor="dielectricGloves">Dielectric Gloves (inspected at 6 months)</Label>
+                </div>
               </div>
             </div>
 
