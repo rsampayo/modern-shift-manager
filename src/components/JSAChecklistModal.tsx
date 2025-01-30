@@ -10,6 +10,7 @@ interface JSAChecklistModalProps {
   open: boolean;
   onClose: () => void;
   onComplete: () => void;
+  mode: 'clockIn' | 'clockOut';
 }
 
 type ChecklistItem = "yes" | "no" | null;
@@ -39,9 +40,10 @@ interface ChecklistState {
   waterControl: ChecklistItem;
   respirators: ChecklistItem;
   tableReferenced: ChecklistItem;
+  incidentOccurred?: ChecklistItem;
 }
 
-const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps) => {
+const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModalProps) => {
   const { toast } = useToast();
   
   const [checklist, setChecklist] = useState<ChecklistState>({
@@ -78,8 +80,12 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
   });
 
   const handleSubmit = () => {
-    const allAnswered = Object.values(checklist).every(value => value !== null);
-    const allPositive = Object.values(checklist).every(value => value === "yes");
+    const fieldsToCheck = mode === 'clockIn' 
+      ? Object.entries(checklist).filter(([key]) => key !== 'incidentOccurred')
+      : [['incidentOccurred', checklist.incidentOccurred]];
+
+    const allAnswered = fieldsToCheck.every(([, value]) => value !== null);
+    const allPositive = mode === 'clockIn' && fieldsToCheck.every(([, value]) => value === "yes");
 
     if (!allAnswered) {
       toast({
@@ -90,7 +96,7 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
       return;
     }
 
-    if (!allPositive) {
+    if (mode === 'clockIn' && !allPositive) {
       toast({
         variant: "destructive",
         title: "Safety requirements not met",
@@ -101,8 +107,8 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
 
     onComplete();
     toast({
-      title: "JSA Checklist completed",
-      description: "You can now proceed with clocking in."
+      title: `JSA Checklist completed`,
+      description: mode === 'clockIn' ? "You can now proceed with clocking in." : "You can now proceed with clocking out."
     });
   };
 
@@ -130,74 +136,87 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] h-[80vh]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-primary">Job Safety Analysis (JSA) Checklist</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-primary">
+            {mode === 'clockIn' ? 'Job Safety Analysis (JSA) Checklist' : 'Post-Job Safety Review'}
+          </DialogTitle>
         </DialogHeader>
         
         <ScrollArea className="h-full pr-4">
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Pre-Job Review</h3>
-              <p className="text-sm text-muted-foreground">Employees must review and discuss this JSA before starting any work task.</p>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="font-semibold">General Safety Concerns</h4>
+          {mode === 'clockIn' ? (
+            <div className="space-y-6">
               <div className="space-y-4">
-                <RadioOption id="firstAidKit" label="First aid kit available and properly stocked" />
-                <RadioOption id="fireExtinguishers" label="Fire extinguishers on-site, charged, and inspected" />
-                <RadioOption id="trafficControl" label="Proper traffic control devices set up" />
+                <h3 className="text-lg font-semibold">Pre-Job Review</h3>
+                <p className="text-sm text-muted-foreground">Employees must review and discuss this JSA before starting any work task.</p>
               </div>
 
-              <h4 className="font-semibold">Personal Protective Equipment (PPE)</h4>
-              <div className="space-y-4 pl-4">
-                <RadioOption id="safetyVest" label="Safety vest (high visibility)" />
-                <RadioOption id="safetyGlasses" label="Safety glasses / Face shields / Hard hats" />
-                <RadioOption id="hearingProtection" label="Hearing protection" />
-                <RadioOption id="steelToeBoots" label="Steel Toe Boots" />
-                <RadioOption id="dielectricGloves" label="Dielectric Gloves (inspected at 6 months)" />
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="font-semibold">Excavations</h4>
               <div className="space-y-4">
-                <RadioOption id="competentPerson" label="Competent person on-site" />
-                <RadioOption id="excavationsProtected" label="Excavations sloped, shored, trench boxes used" />
-                <RadioOption id="trenchInspections" label="Trench inspections completed today" />
-                <RadioOption id="excavationsBarricaded" label="Excavations barricaded or protected" />
-                <RadioOption id="tabulatedData" label="Tabulated data sheets available" />
-                <RadioOption id="spoilPosition" label="Spoil kept at least 24&quot; back from the ditch" />
-                <RadioOption id="accessLadders" label="Access ladders at least 4 feet and secured" />
-              </div>
-            </div>
+                <h4 className="font-semibold">General Safety Concerns</h4>
+                <div className="space-y-4">
+                  <RadioOption id="firstAidKit" label="First aid kit available and properly stocked" />
+                  <RadioOption id="fireExtinguishers" label="Fire extinguishers on-site, charged, and inspected" />
+                  <RadioOption id="trafficControl" label="Proper traffic control devices set up" />
+                </div>
 
-            <div className="space-y-4">
-              <h4 className="font-semibold">Electrical</h4>
-              <div className="space-y-4">
-                <RadioOption id="gfciUsed" label="GFCI used on portable generators" />
-                <RadioOption id="extensionCords" label="Extension cords have ground plugs and are in good condition" />
+                <h4 className="font-semibold">Personal Protective Equipment (PPE)</h4>
+                <div className="space-y-4">
+                  <RadioOption id="safetyVest" label="Safety vest (high visibility)" />
+                  <RadioOption id="safetyGlasses" label="Safety glasses / Face shields / Hard hats" />
+                  <RadioOption id="hearingProtection" label="Hearing protection" />
+                  <RadioOption id="steelToeBoots" label="Steel Toe Boots" />
+                  <RadioOption id="dielectricGloves" label="Dielectric Gloves (inspected at 6 months)" />
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-4">
-              <h4 className="font-semibold">Vehicles</h4>
               <div className="space-y-4">
-                <RadioOption id="loadSecured" label="Load secured on trucks and trailers" />
-                <RadioOption id="seatBelts" label="Seat belts worn when moving" />
-                <RadioOption id="wheelsChocked" label="Wheels chocked (2 used on hills)" />
+                <h4 className="font-semibold">Excavations</h4>
+                <div className="space-y-4">
+                  <RadioOption id="competentPerson" label="Competent person on-site" />
+                  <RadioOption id="excavationsProtected" label="Excavations sloped, shored, trench boxes used" />
+                  <RadioOption id="trenchInspections" label="Trench inspections completed today" />
+                  <RadioOption id="excavationsBarricaded" label="Excavations barricaded or protected" />
+                  <RadioOption id="tabulatedData" label="Tabulated data sheets available" />
+                  <RadioOption id="spoilPosition" label="Spoil kept at least 24&quot; back from the ditch" />
+                  <RadioOption id="accessLadders" label="Access ladders at least 4 feet and secured" />
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-4">
-              <h4 className="font-semibold">Cutting Asphalt, Concrete, Breaking Concrete, etc.</h4>
               <div className="space-y-4">
-                <RadioOption id="silicaDust" label="Silica dust contained" />
-                <RadioOption id="waterControl" label="Water or other control measures used" />
-                <RadioOption id="respirators" label="Respirators used when needed" />
-                <RadioOption id="tableReferenced" label="Table 1 referenced" />
+                <h4 className="font-semibold">Electrical</h4>
+                <div className="space-y-4">
+                  <RadioOption id="gfciUsed" label="GFCI used on portable generators" />
+                  <RadioOption id="extensionCords" label="Extension cords have ground plugs and are in good condition" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="font-semibold">Vehicles</h4>
+                <div className="space-y-4">
+                  <RadioOption id="loadSecured" label="Load secured on trucks and trailers" />
+                  <RadioOption id="seatBelts" label="Seat belts worn when moving" />
+                  <RadioOption id="wheelsChocked" label="Wheels chocked (2 used on hills)" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="font-semibold">Cutting Asphalt, Concrete, Breaking Concrete, etc.</h4>
+                <div className="space-y-4">
+                  <RadioOption id="silicaDust" label="Silica dust contained" />
+                  <RadioOption id="waterControl" label="Water or other control measures used" />
+                  <RadioOption id="respirators" label="Respirators used when needed" />
+                  <RadioOption id="tableReferenced" label="Table 1 referenced" />
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Post-Job Review</h3>
+                <div className="space-y-4">
+                  <RadioOption id="incidentOccurred" label="Was anyone injured on the job, or did any incident occur?" />
+                </div>
+              </div>
+            </div>
+          )}
         </ScrollArea>
 
         <DialogFooter className="mt-4">

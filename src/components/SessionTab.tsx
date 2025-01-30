@@ -10,6 +10,7 @@ const SessionTab = () => {
   const [isWithinGeofence, setIsWithinGeofence] = useState(true);
   const [isClockedIn, setIsClockedIn] = useState(false);
   const [showJSAChecklist, setShowJSAChecklist] = useState(false);
+  const [jsaMode, setJsaMode] = useState<'clockIn' | 'clockOut'>('clockIn');
   const { toast } = useToast();
 
   const handleClockInAttempt = () => {
@@ -21,6 +22,20 @@ const SessionTab = () => {
       });
       return;
     }
+    setJsaMode('clockIn');
+    setShowJSAChecklist(true);
+  };
+
+  const handleClockOutAttempt = () => {
+    if (!isWithinGeofence) {
+      toast({
+        variant: "destructive",
+        title: "Cannot clock out",
+        description: "You are outside the valid geofence area.",
+      });
+      return;
+    }
+    setJsaMode('clockOut');
     setShowJSAChecklist(true);
   };
 
@@ -33,15 +48,8 @@ const SessionTab = () => {
     });
   };
 
-  const handleClockOut = () => {
-    if (!isWithinGeofence) {
-      toast({
-        variant: "destructive",
-        title: "Cannot clock out",
-        description: "You are outside the valid geofence area.",
-      });
-      return;
-    }
+  const handleClockOutComplete = () => {
+    setShowJSAChecklist(false);
     setIsClockedIn(false);
     toast({
       title: "Clocked out successfully",
@@ -92,7 +100,7 @@ const SessionTab = () => {
             <Button
               variant="outline"
               className="w-full border-primary/20 hover:bg-primary/5 text-primary"
-              onClick={handleClockOut}
+              onClick={handleClockOutAttempt}
             >
               Clock Out
             </Button>
@@ -103,7 +111,8 @@ const SessionTab = () => {
       <JSAChecklistModal 
         open={showJSAChecklist}
         onClose={() => setShowJSAChecklist(false)}
-        onComplete={handleClockInComplete}
+        onComplete={jsaMode === 'clockIn' ? handleClockInComplete : handleClockOutComplete}
+        mode={jsaMode}
       />
     </div>
   );
