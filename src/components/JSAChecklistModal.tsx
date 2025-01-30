@@ -3,7 +3,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -15,10 +14,6 @@ interface JSAChecklistModalProps {
 
 const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps) => {
   const { toast } = useToast();
-  const [employeeInfo, setEmployeeInfo] = useState({
-    printName: "",
-    signName: "",
-  });
   
   const [checklist, setChecklist] = useState({
     // General Safety
@@ -54,15 +49,6 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
   });
 
   const handleSubmit = () => {
-    if (!employeeInfo.printName || !employeeInfo.signName) {
-      toast({
-        variant: "destructive",
-        title: "Missing information",
-        description: "Please provide both printed and signed names."
-      });
-      return;
-    }
-
     const allChecked = Object.values(checklist).every(value => value === true);
 
     if (!allChecked) {
@@ -92,26 +78,7 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
           <div className="space-y-6">
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Pre-Job Review</h3>
-              <p className="text-sm text-muted-foreground">Employees must review and discuss this JSA and sign before starting any work task.</p>
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="printName">Print Name</Label>
-                  <Input
-                    id="printName"
-                    value={employeeInfo.printName}
-                    onChange={(e) => setEmployeeInfo(prev => ({ ...prev, printName: e.target.value }))}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signName">Sign Name</Label>
-                  <Input
-                    id="signName"
-                    value={employeeInfo.signName}
-                    onChange={(e) => setEmployeeInfo(prev => ({ ...prev, signName: e.target.value }))}
-                  />
-                </div>
-              </div>
+              <p className="text-sm text-muted-foreground">Employees must review and discuss this JSA before starting any work task.</p>
             </div>
 
             <div className="space-y-4">
@@ -143,7 +110,7 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
                 </div>
               </div>
 
-              <h5 className="font-medium">Personal Protective Equipment (PPE)</h5>
+              <h4 className="font-semibold">Personal Protective Equipment (PPE)</h4>
               <div className="space-y-2 pl-4">
                 <div className="flex items-center space-x-2">
                   <Checkbox 
