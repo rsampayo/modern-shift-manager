@@ -107,11 +107,12 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
   };
 
   const RadioOption = ({ id, label }: { id: keyof ChecklistState; label: string }) => (
-    <div className="flex flex-col space-y-3 md:flex-row md:space-y-0 md:items-center md:space-x-2 p-4 bg-white/50 rounded-lg shadow-sm">
+    <div className="flex flex-col space-y-3 md:flex-row md:space-y-0 md:items-center p-4 bg-white/50 rounded-lg shadow-sm">
+      <Label className="flex-grow text-sm md:text-base leading-relaxed">{label}</Label>
       <RadioGroup
         value={checklist[id] || ""}
         onValueChange={(value) => setChecklist(prev => ({ ...prev, [id]: value as ChecklistItem }))}
-        className="flex flex-wrap gap-4"
+        className="flex flex-wrap gap-4 mt-2 md:mt-0 md:ml-4"
       >
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="yes" id={`${id}-yes`} />
@@ -126,7 +127,6 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
           <Label htmlFor={`${id}-na`} className="text-sm font-medium">N/A</Label>
         </div>
       </RadioGroup>
-      <Label className="flex-grow text-sm md:text-base leading-relaxed">{label}</Label>
     </div>
   );
 
@@ -169,45 +169,45 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
                     </div>
                   </div>
 
-              <div className="space-y-4">
-                <h4 className="font-semibold">Excavations</h4>
-                <div className="space-y-4">
-                  <RadioOption id="competentPerson" label="Competent person on-site" />
-                  <RadioOption id="excavationsProtected" label="Excavations sloped, shored, trench boxes used" />
-                  <RadioOption id="trenchInspections" label="Trench inspections completed today" />
-                  <RadioOption id="excavationsBarricaded" label="Excavations barricaded or protected" />
-                  <RadioOption id="tabulatedData" label="Tabulated data sheets available" />
-                  <RadioOption id="spoilPosition" label="Spoil kept at least 24&quot; back from the ditch" />
-                  <RadioOption id="accessLadders" label="Access ladders at least 4 feet and secured" />
-                </div>
-              </div>
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">Excavations</h4>
+                    <div className="space-y-4">
+                      <RadioOption id="competentPerson" label="Competent person on-site" />
+                      <RadioOption id="excavationsProtected" label="Excavations sloped, shored, trench boxes used" />
+                      <RadioOption id="trenchInspections" label="Trench inspections completed today" />
+                      <RadioOption id="excavationsBarricaded" label="Excavations barricaded or protected" />
+                      <RadioOption id="tabulatedData" label="Tabulated data sheets available" />
+                      <RadioOption id="spoilPosition" label="Spoil kept at least 24&quot; back from the ditch" />
+                      <RadioOption id="accessLadders" label="Access ladders at least 4 feet and secured" />
+                    </div>
+                  </div>
 
-              <div className="space-y-4">
-                <h4 className="font-semibold">Electrical</h4>
-                <div className="space-y-4">
-                  <RadioOption id="gfciUsed" label="GFCI used on portable generators" />
-                  <RadioOption id="extensionCords" label="Extension cords have ground plugs and are in good condition" />
-                </div>
-              </div>
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">Electrical</h4>
+                    <div className="space-y-4">
+                      <RadioOption id="gfciUsed" label="GFCI used on portable generators" />
+                      <RadioOption id="extensionCords" label="Extension cords have ground plugs and are in good condition" />
+                    </div>
+                  </div>
 
-              <div className="space-y-4">
-                <h4 className="font-semibold">Vehicles</h4>
-                <div className="space-y-4">
-                  <RadioOption id="loadSecured" label="Load secured on trucks and trailers" />
-                  <RadioOption id="seatBelts" label="Seat belts worn when moving" />
-                  <RadioOption id="wheelsChocked" label="Wheels chocked (2 used on hills)" />
-                </div>
-              </div>
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">Vehicles</h4>
+                    <div className="space-y-4">
+                      <RadioOption id="loadSecured" label="Load secured on trucks and trailers" />
+                      <RadioOption id="seatBelts" label="Seat belts worn when moving" />
+                      <RadioOption id="wheelsChocked" label="Wheels chocked (2 used on hills)" />
+                    </div>
+                  </div>
 
-              <div className="space-y-4">
-                <h4 className="font-semibold">Cutting Asphalt, Concrete, Breaking Concrete, etc.</h4>
-                <div className="space-y-4">
-                  <RadioOption id="silicaDust" label="Silica dust contained" />
-                  <RadioOption id="waterControl" label="Water or other control measures used" />
-                  <RadioOption id="respirators" label="Respirators used when needed" />
-                  <RadioOption id="tableReferenced" label="Table 1 referenced" />
-                </div>
-              </div>
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">Cutting Asphalt, Concrete, Breaking Concrete, etc.</h4>
+                    <div className="space-y-4">
+                      <RadioOption id="silicaDust" label="Silica dust contained" />
+                      <RadioOption id="waterControl" label="Water or other control measures used" />
+                      <RadioOption id="respirators" label="Respirators used when needed" />
+                      <RadioOption id="tableReferenced" label="Table 1 referenced" />
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : (
