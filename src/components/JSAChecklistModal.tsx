@@ -13,7 +13,7 @@ interface JSAChecklistModalProps {
   mode: 'clockIn' | 'clockOut';
 }
 
-type ChecklistItem = "yes" | "no" | null;
+type ChecklistItem = "yes" | "no" | "na" | null;
 
 interface ChecklistState {
   firstAidKit: ChecklistItem;
@@ -47,17 +47,14 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
   const { toast } = useToast();
   
   const [checklist, setChecklist] = useState<ChecklistState>({
-    // General Safety
     firstAidKit: null,
     fireExtinguishers: null,
     trafficControl: null,
-    // PPE
     safetyVest: null,
     safetyGlasses: null,
     hearingProtection: null,
     steelToeBoots: null,
     dielectricGloves: null,
-    // Excavations
     competentPerson: null,
     excavationsProtected: null,
     trenchInspections: null,
@@ -65,14 +62,11 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
     tabulatedData: null,
     spoilPosition: null,
     accessLadders: null,
-    // Electrical
     gfciUsed: null,
     extensionCords: null,
-    // Vehicles
     loadSecured: null,
     seatBelts: null,
     wheelsChocked: null,
-    // Cutting
     silicaDust: null,
     waterControl: null,
     respirators: null,
@@ -85,7 +79,7 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
       : [['incidentOccurred', checklist.incidentOccurred]];
 
     const allAnswered = fieldsToCheck.every(([, value]) => value !== null);
-    const allPositive = mode === 'clockIn' && fieldsToCheck.every(([, value]) => value === "yes");
+    const allPositiveOrNA = mode === 'clockIn' && fieldsToCheck.every(([, value]) => value === "yes" || value === "na");
 
     if (!allAnswered) {
       toast({
@@ -96,11 +90,11 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
       return;
     }
 
-    if (mode === 'clockIn' && !allPositive) {
+    if (mode === 'clockIn' && !allPositiveOrNA) {
       toast({
         variant: "destructive",
         title: "Safety requirements not met",
-        description: "All safety checks must be positive before proceeding."
+        description: "All safety checks must be positive or not applicable before proceeding."
       });
       return;
     }
@@ -126,6 +120,10 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="no" id={`${id}-no`} />
           <Label htmlFor={`${id}-no`}>No</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <RadioGroupItem value="na" id={`${id}-na`} />
+          <Label htmlFor={`${id}-na`}>N/A</Label>
         </div>
       </RadioGroup>
       <Label className="flex-grow">{label}</Label>
