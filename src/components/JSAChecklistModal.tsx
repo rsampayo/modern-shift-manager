@@ -3,7 +3,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface JSAChecklistModalProps {
   open: boolean;
@@ -13,79 +15,260 @@ interface JSAChecklistModalProps {
 
 const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps) => {
   const { toast } = useToast();
+  const [employeeInfo, setEmployeeInfo] = useState({
+    printName: "",
+    signName: "",
+  });
+  
   const [checklist, setChecklist] = useState({
-    ppe: false,
-    hazards: false,
-    equipment: false,
-    emergency: false,
-    communication: false
+    // General Safety
+    firstAidKit: false,
+    fireExtinguishers: false,
+    trafficControl: false,
+    ppe: {
+      safetyVest: false,
+      safetyGlasses: false,
+      hearingProtection: false,
+      steelToeBoots: false,
+      dielectricGloves: false,
+    },
+    // Excavations
+    competentPerson: false,
+    excavationsProtected: false,
+    trenchInspections: false,
+    excavationsBarricaded: false,
+    tabulatedData: false,
+    spoilPosition: false,
+    accessLadders: false,
+    // Electrical
+    gfciUsed: false,
+    extensionCords: false,
+    // Vehicles
+    loadSecured: false,
+    seatBelts: false,
+    wheelsChocked: false,
+    // Cutting
+    silicaDust: false,
+    waterControl: false,
+    respirators: false,
+    tableReferenced: false,
   });
 
   const handleSubmit = () => {
-    if (Object.values(checklist).every(item => item)) {
-      onComplete();
+    if (!employeeInfo.printName || !employeeInfo.signName) {
       toast({
-        title: "JSA Checklist completed",
-        description: "You can now proceed with clocking in."
+        variant: "destructive",
+        title: "Missing information",
+        description: "Please provide both printed and signed names."
       });
-    } else {
+      return;
+    }
+
+    const allChecked = Object.entries(checklist).every(([key, value]) => {
+      if (typeof value === 'object') {
+        return Object.values(value).every(v => v);
+      }
+      return value;
+    });
+
+    if (!allChecked) {
       toast({
         variant: "destructive",
         title: "Incomplete checklist",
         description: "Please complete all safety checks before proceeding."
       });
+      return;
     }
+
+    onComplete();
+    toast({
+      title: "JSA Checklist completed",
+      description: "You can now proceed with clocking in."
+    });
   };
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px] h-[80vh]">
         <DialogHeader>
-          <DialogTitle className="text-primary">Job Safety Analysis (JSA) Checklist</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-primary">Job Safety Analysis (JSA) Checklist</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="ppe" 
-              checked={checklist.ppe}
-              onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, ppe: checked as boolean }))}
-            />
-            <Label htmlFor="ppe">I am wearing all required Personal Protective Equipment (PPE)</Label>
+        
+        <ScrollArea className="h-full pr-4">
+          <div className="space-y-6">
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Pre-Job Review</h3>
+              <p className="text-sm text-muted-foreground">Employees must review and discuss this JSA and sign before starting any work task.</p>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="printName">Print Name</Label>
+                  <Input
+                    id="printName"
+                    value={employeeInfo.printName}
+                    onChange={(e) => setEmployeeInfo(prev => ({ ...prev, printName: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signName">Sign Name</Label>
+                  <Input
+                    id="signName"
+                    value={employeeInfo.signName}
+                    onChange={(e) => setEmployeeInfo(prev => ({ ...prev, signName: e.target.value }))}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-semibold">General Safety Concerns</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="firstAidKit" 
+                    checked={checklist.firstAidKit}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, firstAidKit: checked as boolean }))}
+                  />
+                  <Label htmlFor="firstAidKit">First aid kit available and properly stocked</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="fireExtinguishers" 
+                    checked={checklist.fireExtinguishers}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, fireExtinguishers: checked as boolean }))}
+                  />
+                  <Label htmlFor="fireExtinguishers">Fire extinguishers on-site, charged, and inspected</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="trafficControl" 
+                    checked={checklist.trafficControl}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, trafficControl: checked as boolean }))}
+                  />
+                  <Label htmlFor="trafficControl">Proper traffic control devices set up</Label>
+                </div>
+              </div>
+
+              <h5 className="font-medium">Personal Protective Equipment (PPE)</h5>
+              <div className="space-y-2 pl-4">
+                {Object.entries(checklist.ppe).map(([key, value]) => (
+                  <div key={key} className="flex items-center space-x-2">
+                    <Checkbox 
+                      id={key}
+                      checked={value}
+                      onCheckedChange={(checked) => 
+                        setChecklist(prev => ({
+                          ...prev,
+                          ppe: { ...prev.ppe, [key]: checked as boolean }
+                        }))
+                      }
+                    />
+                    <Label htmlFor={key}>
+                      {key === 'safetyVest' ? 'Safety vest (high visibility)' :
+                       key === 'safetyGlasses' ? 'Safety glasses / Face shields / Hard hats' :
+                       key === 'hearingProtection' ? 'Hearing protection' :
+                       key === 'steelToeBoots' ? 'Steel Toe Boots' :
+                       'Dielectric Gloves (inspected at 6 months)'}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-semibold">Excavations</h4>
+              {[
+                { id: 'competentPerson', label: 'Competent person on-site' },
+                { id: 'excavationsProtected', label: 'Excavations sloped, shored, trench boxes used' },
+                { id: 'trenchInspections', label: 'Trench inspections completed today' },
+                { id: 'excavationsBarricaded', label: 'Excavations barricaded or protected' },
+                { id: 'tabulatedData', label: 'Tabulated data sheets available' },
+                { id: 'spoilPosition', label: 'Spoil kept at least 24" back from the ditch' },
+                { id: 'accessLadders', label: 'Access ladders at least 4 feet and secured' },
+              ].map(({ id, label }) => (
+                <div key={id} className="flex items-center space-x-2">
+                  <Checkbox 
+                    id={id}
+                    checked={checklist[id as keyof typeof checklist]}
+                    onCheckedChange={(checked) => 
+                      setChecklist(prev => ({ ...prev, [id]: checked as boolean }))
+                    }
+                  />
+                  <Label htmlFor={id}>{label}</Label>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-semibold">Electrical</h4>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="gfciUsed" 
+                    checked={checklist.gfciUsed}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, gfciUsed: checked as boolean }))}
+                  />
+                  <Label htmlFor="gfciUsed">GFCI used on portable generators</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="extensionCords" 
+                    checked={checklist.extensionCords}
+                    onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, extensionCords: checked as boolean }))}
+                  />
+                  <Label htmlFor="extensionCords">Extension cords have ground plugs and are in good condition</Label>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-semibold">Vehicles</h4>
+              <div className="space-y-2">
+                {[
+                  { id: 'loadSecured', label: 'Load secured on trucks and trailers' },
+                  { id: 'seatBelts', label: 'Seat belts worn when moving' },
+                  { id: 'wheelsChocked', label: 'Wheels chocked (2 used on hills)' },
+                ].map(({ id, label }) => (
+                  <div key={id} className="flex items-center space-x-2">
+                    <Checkbox 
+                      id={id}
+                      checked={checklist[id as keyof typeof checklist]}
+                      onCheckedChange={(checked) => 
+                        setChecklist(prev => ({ ...prev, [id]: checked as boolean }))
+                      }
+                    />
+                    <Label htmlFor={id}>{label}</Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-semibold">Cutting Asphalt, Concrete, Breaking Concrete, etc.</h4>
+              <div className="space-y-2">
+                {[
+                  { id: 'silicaDust', label: 'Silica dust contained' },
+                  { id: 'waterControl', label: 'Water or other control measures used' },
+                  { id: 'respirators', label: 'Respirators used when needed' },
+                  { id: 'tableReferenced', label: 'Table 1 referenced' },
+                ].map(({ id, label }) => (
+                  <div key={id} className="flex items-center space-x-2">
+                    <Checkbox 
+                      id={id}
+                      checked={checklist[id as keyof typeof checklist]}
+                      onCheckedChange={(checked) => 
+                        setChecklist(prev => ({ ...prev, [id]: checked as boolean }))
+                      }
+                    />
+                    <Label htmlFor={id}>{label}</Label>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="hazards" 
-              checked={checklist.hazards}
-              onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, hazards: checked as boolean }))}
-            />
-            <Label htmlFor="hazards">I have identified and assessed potential hazards in my work area</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="equipment" 
-              checked={checklist.equipment}
-              onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, equipment: checked as boolean }))}
-            />
-            <Label htmlFor="equipment">All equipment and tools have been inspected and are in good condition</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="emergency" 
-              checked={checklist.emergency}
-              onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, emergency: checked as boolean }))}
-            />
-            <Label htmlFor="emergency">I know the location of emergency equipment and exit routes</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="communication" 
-              checked={checklist.communication}
-              onCheckedChange={(checked) => setChecklist(prev => ({ ...prev, communication: checked as boolean }))}
-            />
-            <Label htmlFor="communication">I have established communication methods with my team/supervisor</Label>
-          </div>
-        </div>
-        <DialogFooter>
+        </ScrollArea>
+
+        <DialogFooter className="mt-4">
           <Button variant="outline" onClick={onClose} className="border-primary/20">Cancel</Button>
           <Button onClick={handleSubmit} className="bg-primary hover:bg-primary/90">Submit</Button>
         </DialogFooter>
