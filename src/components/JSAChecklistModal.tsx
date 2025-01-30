@@ -166,7 +166,7 @@ const JSAChecklistModal = ({ open, onClose, onComplete }: JSAChecklistModalProps
                 <RadioOption id="trenchInspections" label="Trench inspections completed today" />
                 <RadioOption id="excavationsBarricaded" label="Excavations barricaded or protected" />
                 <RadioOption id="tabulatedData" label="Tabulated data sheets available" />
-                <RadioOption id="spoilPosition" label="Spoil kept at least 24\" back from the ditch" />
+                <RadioOption id="spoilPosition" label="Spoil kept at least 24&quot; back from the ditch" />
                 <RadioOption id="accessLadders" label="Access ladders at least 4 feet and secured" />
               </div>
             </div>
