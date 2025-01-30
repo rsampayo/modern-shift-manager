@@ -145,7 +145,7 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
               <div className="space-y-6">
                 <div className="space-y-4">
                   <h3 className="text-base md:text-lg font-semibold">Pre-Job Review</h3>
-                  <p className="text-sm text-muted-foreground">Employees must review and discuss this JSA before starting any work task.</p>
+                  <p className="text-sm text-foreground">Employees must review and discuss this JSA before starting any work task.</p>
                 </div>
 
                 <div className="space-y-6">
