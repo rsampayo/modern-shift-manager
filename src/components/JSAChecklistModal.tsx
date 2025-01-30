@@ -107,63 +107,67 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
   };
 
   const RadioOption = ({ id, label }: { id: keyof ChecklistState; label: string }) => (
-    <div className="flex items-center space-x-2">
+    <div className="flex flex-col space-y-3 md:flex-row md:space-y-0 md:items-center md:space-x-2 p-4 bg-white/50 rounded-lg shadow-sm">
       <RadioGroup
         value={checklist[id] || ""}
         onValueChange={(value) => setChecklist(prev => ({ ...prev, [id]: value as ChecklistItem }))}
-        className="flex items-center space-x-4"
+        className="flex flex-wrap gap-4"
       >
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="yes" id={`${id}-yes`} />
-          <Label htmlFor={`${id}-yes`}>Yes</Label>
+          <Label htmlFor={`${id}-yes`} className="text-sm font-medium">Yes</Label>
         </div>
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="no" id={`${id}-no`} />
-          <Label htmlFor={`${id}-no`}>No</Label>
+          <Label htmlFor={`${id}-no`} className="text-sm font-medium">No</Label>
         </div>
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="na" id={`${id}-na`} />
-          <Label htmlFor={`${id}-na`}>N/A</Label>
+          <Label htmlFor={`${id}-na`} className="text-sm font-medium">N/A</Label>
         </div>
       </RadioGroup>
-      <Label className="flex-grow">{label}</Label>
+      <Label className="flex-grow text-sm md:text-base leading-relaxed">{label}</Label>
     </div>
   );
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] h-[80vh]">
+      <DialogContent className="sm:max-w-[600px] h-[90vh] md:h-[80vh]">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-primary">
+          <DialogTitle className="text-lg md:text-xl font-bold text-primary">
             {mode === 'clockIn' ? 'Job Safety Analysis (JSA) Checklist' : 'Post-Job Safety Review'}
           </DialogTitle>
         </DialogHeader>
         
         <ScrollArea className="h-full pr-4">
-          {mode === 'clockIn' ? (
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Pre-Job Review</h3>
-                <p className="text-sm text-muted-foreground">Employees must review and discuss this JSA before starting any work task.</p>
-              </div>
-
-              <div className="space-y-4">
-                <h4 className="font-semibold">General Safety Concerns</h4>
+          <div className="space-y-6 p-2">
+            {mode === 'clockIn' ? (
+              <div className="space-y-6">
                 <div className="space-y-4">
-                  <RadioOption id="firstAidKit" label="First aid kit available and properly stocked" />
-                  <RadioOption id="fireExtinguishers" label="Fire extinguishers on-site, charged, and inspected" />
-                  <RadioOption id="trafficControl" label="Proper traffic control devices set up" />
+                  <h3 className="text-base md:text-lg font-semibold">Pre-Job Review</h3>
+                  <p className="text-sm text-muted-foreground">Employees must review and discuss this JSA before starting any work task.</p>
                 </div>
 
-                <h4 className="font-semibold">Personal Protective Equipment (PPE)</h4>
-                <div className="space-y-4">
-                  <RadioOption id="safetyVest" label="Safety vest (high visibility)" />
-                  <RadioOption id="safetyGlasses" label="Safety glasses / Face shields / Hard hats" />
-                  <RadioOption id="hearingProtection" label="Hearing protection" />
-                  <RadioOption id="steelToeBoots" label="Steel Toe Boots" />
-                  <RadioOption id="dielectricGloves" label="Dielectric Gloves (inspected at 6 months)" />
-                </div>
-              </div>
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="text-sm md:text-base font-semibold bg-primary/5 p-2 rounded">General Safety Concerns</h4>
+                    <div className="space-y-3">
+                      <RadioOption id="firstAidKit" label="First aid kit available and properly stocked" />
+                      <RadioOption id="fireExtinguishers" label="Fire extinguishers on-site, charged, and inspected" />
+                      <RadioOption id="trafficControl" label="Proper traffic control devices set up" />
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <h4 className="text-sm md:text-base font-semibold bg-primary/5 p-2 rounded">Personal Protective Equipment (PPE)</h4>
+                    <div className="space-y-3">
+                      <RadioOption id="safetyVest" label="Safety vest (high visibility)" />
+                      <RadioOption id="safetyGlasses" label="Safety glasses / Face shields / Hard hats" />
+                      <RadioOption id="hearingProtection" label="Hearing protection" />
+                      <RadioOption id="steelToeBoots" label="Steel Toe Boots" />
+                      <RadioOption id="dielectricGloves" label="Dielectric Gloves (inspected at 6 months)" />
+                    </div>
+                  </div>
 
               <div className="space-y-4">
                 <h4 className="font-semibold">Excavations</h4>
@@ -204,17 +208,19 @@ const JSAChecklistModal = ({ open, onClose, onComplete, mode }: JSAChecklistModa
                   <RadioOption id="tableReferenced" label="Table 1 referenced" />
                 </div>
               </div>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Post-Job Review</h3>
-                <div className="space-y-4">
-                  <RadioOption id="incidentOccurred" label="Was anyone injured on the job, or did any incident occur?" />
                 </div>
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h3 className="text-base md:text-lg font-semibold">Post-Job Review</h3>
+                  <div className="space-y-3">
+                    <RadioOption id="incidentOccurred" label="Was anyone injured on the job, or did any incident occur?" />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </ScrollArea>
 
         <DialogFooter className="mt-4">
