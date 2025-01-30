@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { MapPin } from "lucide-react";
+import JSAChecklistModal from "./JSAChecklistModal";
 
 const SessionTab = () => {
   const [isWithinGeofence, setIsWithinGeofence] = useState(true);
   const [isClockedIn, setIsClockedIn] = useState(false);
+  const [showJSAChecklist, setShowJSAChecklist] = useState(false);
   const { toast } = useToast();
 
-  const handleClockIn = () => {
+  const handleClockInAttempt = () => {
     if (!isWithinGeofence) {
       toast({
         variant: "destructive",
@@ -19,6 +21,11 @@ const SessionTab = () => {
       });
       return;
     }
+    setShowJSAChecklist(true);
+  };
+
+  const handleClockInComplete = () => {
+    setShowJSAChecklist(false);
     setIsClockedIn(true);
     toast({
       title: "Clocked in successfully",
@@ -65,7 +72,7 @@ const SessionTab = () => {
             <p className="text-primary/80">You're currently not clocked in.</p>
             <Button
               className="w-full bg-primary hover:bg-primary-hover text-white transition-all duration-300 shadow-lg hover:shadow-primary/20"
-              onClick={handleClockIn}
+              onClick={handleClockInAttempt}
             >
               Clock In
             </Button>
@@ -92,6 +99,12 @@ const SessionTab = () => {
           </div>
         </Card>
       )}
+
+      <JSAChecklistModal 
+        open={showJSAChecklist}
+        onClose={() => setShowJSAChecklist(false)}
+        onComplete={handleClockInComplete}
+      />
     </div>
   );
 };
